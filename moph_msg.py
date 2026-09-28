@@ -2,7 +2,7 @@
 """
 ตัวอย่างส่งข้อความเข้าไลน์หมอพร้อมผ่าน MOPH Alert v3.1 (stdlib ล้วน ไม่ต้อง pip)
 
-  1. คัดลอก .env.example เป็น .env แล้วใส่ CLIENT_KEY, SECRET_KEY
+  1. คัดลอก .env.example เป็น .env แล้วใส่ MOPH_CLIENT_KEY, MOPH_SECRET_KEY
   2. python moph_msg.py <เลขบัตร[,เลขบัตร]> "ข้อความ"            ส่ง text
      python moph_msg.py <เลขบัตร[,เลขบัตร]> "ข้อความ" --flex     ส่ง flex card
      เติม --dry = พิมพ์ payload ไม่ยิงจริง
@@ -77,8 +77,8 @@ def send(body):
     """คืน (ok, response ทั้งก้อน) ไม่ raise — ส่งไม่ผ่านต้องไม่ทำให้งานหลักพัง"""
     req = urllib.request.Request(URL, method="POST", data=json.dumps(body).encode(), headers={
         "content-type": "application/json",
-        "client-key": os.environ["CLIENT_KEY"],
-        "secret-key": os.environ["SECRET_KEY"],
+        "client-key": os.environ["MOPH_CLIENT_KEY"],
+        "secret-key": os.environ["MOPH_SECRET_KEY"],
     })
     try:
         with urllib.request.urlopen(req, timeout=20) as r:
@@ -108,8 +108,8 @@ def main():
     if "--dry" in sys.argv:
         print(json.dumps(body, ensure_ascii=False, indent=2))
         return
-    if not os.environ.get("CLIENT_KEY") or not os.environ.get("SECRET_KEY"):
-        sys.exit("ตั้ง CLIENT_KEY / SECRET_KEY ใน .env")
+    if not os.environ.get("MOPH_CLIENT_KEY") or not os.environ.get("MOPH_SECRET_KEY"):
+        sys.exit("ตั้ง MOPH_CLIENT_KEY / MOPH_SECRET_KEY ใน .env")
     ok, res = send(body)
     print(("ส่งสำเร็จ" if ok else "ส่งไม่สำเร็จ") + f" ({len(cids)} ผู้รับ)\n{res[:500]}")
     sys.exit(0 if ok else 1)
