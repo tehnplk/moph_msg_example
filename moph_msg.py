@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-ตัวอย่างส่งข้อความเข้าไลน์หมอพร้อมผ่าน MOPH Alert v3.1 (stdlib ล้วน ไม่ต้อง pip)
+ตัวอย่างส่งข้อความรายบุคคล (ระบุด้วยเลขบัตร) เข้าไลน์หมอพร้อมผ่าน MOPH Alert v3.1 (stdlib ล้วน ไม่ต้อง pip)
+ส่งเข้าไลน์กลุ่มใช้ moph_notify.py
 
   1. คัดลอก .env.example เป็น .env แล้วใส่ MOPH_MESSAGE_CLIENT_KEY, MOPH_MESSAGE_SECRET_KEY
   2. python moph_msg.py <เลขบัตร[,เลขบัตร]> "ข้อความ"            ส่ง text

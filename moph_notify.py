@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-ตัวอย่างส่งข้อความผ่าน MOPH Notify (stdlib ล้วน ไม่ต้อง pip)
-ต่างจาก MOPH Alert (moph_msg.py): ไม่ระบุผู้รับ — ส่งเข้าช่องที่ผูกกับ client-key/secret-key คู่นั้น
+ตัวอย่างส่งข้อความเข้าไลน์กลุ่มผ่าน MOPH Notify (stdlib ล้วน ไม่ต้อง pip)
+ไม่ระบุผู้รับ — เข้ากลุ่มที่ผูกกับ client-key/secret-key คู่นั้น (ส่งรายบุคคลด้วยเลขบัตรใช้ moph_msg.py)
 
   1. ใส่ MOPH_NOTIFY_CLIENT_KEY, MOPH_NOTIFY_SECRET_KEY ใน .env
   2. python moph_notify.py "ข้อความ"            ส่ง text
