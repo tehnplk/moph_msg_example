@@ -74,22 +74,24 @@ def payload(cids, title, text, use_flex=False):
 
 
 def send(body):
+    """คืน (ok, response ทั้งก้อน) ไม่ raise — ส่งไม่ผ่านต้องไม่ทำให้งานหลักพัง"""
     req = urllib.request.Request(URL, method="POST", data=json.dumps(body).encode(), headers={
-        "Content-Type": "application/json",
+        "content-type": "application/json",
         "client-key": os.environ["CLIENT_KEY"],
         "secret-key": os.environ["SECRET_KEY"],
     })
     try:
-        with urllib.request.urlopen(req, timeout=30) as r:
+        with urllib.request.urlopen(req, timeout=20) as r:
             res = r.read().decode()
     except urllib.error.HTTPError as e:
-        res = e.read().decode() or f"HTTP {e.code}"
-    # สำเร็จ = message_code 200 ในเนื้อ response (HTTP 200 อย่างเดียวไม่พอ)
+        return False, e.read().decode() or f"HTTP {e.code}"
+    except OSError as e:   # timeout / ต่อไม่ได้
+        return False, str(e)
+    # สำเร็จ = HTTP 2xx และ message_code 200 ในเนื้อ response (HTTP 200 อย่างเดียวไม่พอ)
     try:
-        ok = json.loads(res).get("message_code") == 200
+        return json.loads(res).get("message_code") == 200, res
     except ValueError:
-        ok = False
-    return ok, res
+        return False, res
 
 
 def main():
